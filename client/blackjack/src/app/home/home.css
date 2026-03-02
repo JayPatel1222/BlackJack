@@ -1,0 +1,23 @@
+.blackjack-subtitle {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  text-shadow: 0 6px 10px rgba(0, 0, 0, 0.6);
+}
+
+.blackjack-main-title {
+  font-size: 4.5rem;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: #d31212;
+  text-shadow: 0 6px 0px rgba(255, 255, 255, 0.6);
+}
+
+input.form-control {
+  border-radius: 10px;
+}
+
+button.btn-success:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}

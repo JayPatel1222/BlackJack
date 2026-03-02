@@ -1,0 +1,85 @@
+.subtitle {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  text-shadow: 0 6px 10px rgba(0, 0, 0, 0.6);
+}
+
+.main-title {
+  font-size: 4.5rem;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: #d31212;
+  text-shadow: 0 6px 0px rgba(255, 255, 255, 0.6);
+}
+
+.absolute {
+  position: absolute;
+}
+
+.relative {
+  position: relative;
+}
+
+.bg {
+  background: rgba(2, 2, 2, 0.5);
+}
+
+.blackjack-table-border {
+  outline: 10px solid #76483c
+}
+
+.blackjack-bg {
+  /* background: #0b6903; */
+  background: #008000;
+  overflow: hidden;
+}
+.game-bg{
+  background: radial-gradient(circle at center, #1e5f2c 0%, #0d3b1e 80%);
+}
+.card-img {
+  width: 85px;
+}
+
+.game-messages{
+  color: yellow;
+}
+
+.card-img-lg {
+  width: 75px;
+}
+
+.card-img,
+.card-img-lg {
+  display: block; 
+  height: auto;    
+  margin:.4em -1.2em;
+  border: 3px solid rgb(225, 154, 154);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+}
+
+.card-img-lg:hover {
+  transform: scale(1.1);
+  
+}
+
+.card-img:hover {
+  transform: scale(1.1);
+}
+
+.player-zone {
+  min-width: 220px;
+}
+
+.results-panel {
+  width: 220px;
+  background: rgba(2, 2, 2, 0.5);
+  border-left: 2px solid #444;
+}
+.card-img-lg.active-turn {
+  box-shadow: 
+    0 -8px 12px  rgba(255, 215, 0, 0.8),
+    0  8px 12px rgba(255, 215, 0, 0.8);
+}

@@ -1,0 +1,158 @@
+@if (!gameService.hasGameStarted) {
+<div class="container-fluid vh-100 bg d-flex flex-column justify-content-center align-items-center">
+
+  <h1 class="main-title mb-3">♠ LOBBY ♠</h1>
+  <p class="subtitle mb-5">At least 1 player is required to start a game</p>
+
+  <div class="d-flex flex-row gap-2 text-nowrap">
+    <a class="btn btn-outline-danger btn-lg w-100" routerLink="/">
+      Exit Lobby
+    </a>
+    <button class="btn btn-success btn-lg w-100" (click)="onClickStartGame()">
+      Start Game
+    </button>
+  </div>
+
+  <div class="d-flex flex-column justify-content-evenly w-25 mt-5">
+    <p class="text-white text-center fw-bold h5">{{`${this.gameService.getPlayers().length}/${this.gameService.MAX_PLAYERS} Players`}}</p>
+    <table class="table table-dark table-striped table-hover table-shadow">
+      <thead class="h5">
+        <th class="p-3">#</th>
+        <th class="p-3">Name</th>
+      </thead>
+      <tbody class="">
+        @for (player of gameService.getPlayers(); track player; let i = $index) {
+        <tr class="fw-semibold h5">
+          <td class="p-3">{{i + 1}}</td>
+          <td class="p-3">{{player.userId == gameService.getPlayer()?.userId ? `${player.name} (You)` :
+            `${player.name}`}}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class=" top-0 start-0 text-white p-4">
+    @for (msg of gameService.getMessages(); track msg) {
+    <p class="fw-semibold h5"
+      [ngClass]="{'text-success': msg.type === 'POSITIVE', 'text-danger': msg.type === 'NEGATIVE'}">
+      {{msg.message}}
+    </p>
+    }
+  </div>
+</div>
+}
+@else {
+<div class="vh-100 text-white d-flex">
+  <div class="w-100 h-100 p-4 bg">
+    <div class="relative flex-grow-1 d-flex flex-column justify-content-between align-items-center p-4 h-100">
+      <div 
+        class="position-absolute top-0 start-0 blackjack-bg blackjack-table-border rounded-pill"
+        style="width: 100%; height: 100%;"></div>
+
+      <div class="text-center z-1">
+        <h3 class="fw-bold mb-3">Dealer</h3>
+        <div class="d-flex flex-column">
+          <div class="d-flex justify-content-center gap-3 flex-wrap">
+            @for (card of gameService.getDealer()?.cards; track card) {
+              <img src="{{ card.img }}" class="card-img">
+            }
+          </div>
+
+          <h3>{{gameService.getHandValue(gameService.getDealer()?.cards ?? [])}}</h3>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center gap-4 flex-wrap mt-4 z-1 ">
+        @for (player of gameService.getPlayers(); track player) {
+          <div class="player-zone text-center">
+            <div class="player-wrapper">
+
+              <div class="d-flex justify-content-center flex-wrap mx-3">
+                @for (card of player.cards; track card) {
+                  <img 
+                    src="{{ card.img }}" 
+                    class="card-img-lg" 
+                    [class.active-turn]="player.userId === gameService.getPlayer()?.userId && gameService.getPlayer()?.isTurn">
+                }
+              </div>
+            </div>
+
+            <h3>{{gameService.getHandValue(player?.cards ?? [])}}</h3>
+
+            <h5 
+              class="fw-semibold mt-3"
+              [ngClass]="{
+                'game-messages' : player.userId === gameService.getPlayer()?.userId, 
+                'text-decoration-line-through text-danger' : player.isBust}">
+              {{ 
+                player.userId === gameService.getPlayer()?.userId
+                ? player.name + ' (You)'
+                : player.name
+              }}
+            </h5>
+          </div>
+        }
+      </div>
+
+      @if (!gameService.isRoundOver) {
+        <div class="d-flex justify-content-center gap-3 z-1 bg w-auto p-2 rounded-4">
+          <button 
+            class="btn btn-danger btn-lg" 
+            [disabled]="!gameService.getPlayer()?.isTurn"
+            (click)="onStand()">
+            STAND
+          </button>
+          <button 
+            class="btn btn-success test btn-lg" 
+            (click)="onHit()"
+            [disabled]="!gameService.getPlayer()?.isTurn">
+            HIT
+          </button>
+        </div>
+      }
+      @else {
+        <div class="d-flex justify-content-center gap-3 z-1 bg w-auto p-2 rounded-4">
+          <button 
+            class="btn btn-success btn-lg" 
+            [disabled]="!gameService.isRoundOver"
+            (click)="onClickPlayAgain()">
+            PLAY AGAIN
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="results-panel p-4">
+    <h4 class="fw-bold mb-3 text-center">Round Results</h4>
+
+    <div class="mb-3">
+      <h6 class="text-success fw-semibold">🏆 Winners</h6>
+      @if (gameService.getWinningPlayers().length) {
+        @for (player of gameService.getWinningPlayers(); track player) {
+          <p class="mb-1">{{ player.name }}</p>
+        }
+      } 
+      @else {
+        <p>WINNERS announced here</p>
+      }
+    </div>
+
+    <div>
+      <h6 class="fw-semibold mt-3 text-info">Messages</h6>
+      @for (msg of gameService.getMessages(); track msg) {
+        <p 
+          class="f-5 mb-1 game-messages" 
+          [ngClass]="{
+            'text-success': msg.type === 'POSITIVE',
+            'text-danger': msg.type === 'NEGATIVE'
+          }">
+        {{ msg.message.toUpperCase() }}
+      </p>
+      }
+    </div>
+  </div>
+
+</div>
+}

@@ -1,0 +1,25 @@
+<div class="container-fluid vh-100 blackjack-bg d-flex flex-column justify-content-center align-items-center">
+
+  <h1 class="blackjack-main-title mb-3">♠ BLACKJACK ♠</h1>
+  <p class="blackjack-subtitle mb-5">Enter the table and test your luck</p>
+
+  <form class="blackjack-entry" (ngSubmit)="onPlay()">
+    <input
+      type="text"
+      class="form-control form-control-lg text-center mb-3"
+      placeholder="Enter username"
+      [(ngModel)]="username"
+      name="username"
+      autocomplete="off"
+    />
+
+    <button
+      class="btn btn-success btn-lg w-100"
+      (click)="onPlay()"
+      [disabled]="!username"
+    >
+      Join Table
+    </button>
+  </form>
+
+</div>
